@@ -4,20 +4,29 @@
 <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
  <script type="text/javascript">
   function onVisaCheckoutReady(){
-  V.init( {
-  apikey: "UWQ1QJCBMFV593LACDFR21v7AaqUKUGa7YGbrq1Zva_XgEkRk",
-   paymentRequest:{
-    currencyCode: "USD",
-    total: "10.00"
+    V.init( {
+      apikey: "UWQ1QJCBMFV593LACDFR21v7AaqUKUGa7YGbrq1Zva_XgEkRk",
+      paymentRequest:{
+        currencyCode: "USD",
+        total: "10.00"
+      }
+    });
+    V.on("payment.success", function(payment) {
+        alert("success");
+        database.playlist.music.push(music);
+        firebase.database().ref("/").set(database);
+        alert("database updated");
+        
+        $.get("http://visa-checkout-api-visa-checkout.cloudapps.hackaton.solutionarchitectsredhat.com.br/pay/pagar", 
+          function(data, status) {
+            alert(data);
+          });
+    });
+    V.on("payment.cancel", function(payment)
+      {alert(JSON.stringify(payment)); });
+    V.on("payment.error", function(payment, error)
+      {alert(JSON.stringify(error)); });
   }
-  });
-V.on("payment.success", function(payment)
-  {alert(JSON.stringify(payment)); });
-V.on("payment.cancel", function(payment)
-  {alert(JSON.stringify(payment)); });
-V.on("payment.error", function(payment, error)
-  {alert(JSON.stringify(error)); });
-}
 </script>
 <style type="text/css" media="screen">
 body {
@@ -127,22 +136,6 @@ body {
             music = database.videos[0].produtos[0].musica;
           }
       );
-    /*
-    var database = null;
-
-    firebase.database().ref("/").once('value')
-    .then(
-        function(snapshot) {
-          database = snapshot.val();
-
-          var music = database[0].produtos[0].musica;
-          setTimeout(function () {
-            document.getElementById("music-title").textContent = music.nome;
-            document.getElementById("music-price").textContent = "R$ " + music.valor;
-            document.getElementById("music").style.visibility = "visible";
-          }, music.tempo * 100);
-        }
-    );*/
 
     function onTrackedVideoFrame(currentTime, duration){
         if (currentTime > music.tempo){
