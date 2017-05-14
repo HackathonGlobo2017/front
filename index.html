@@ -12,11 +12,14 @@
   }
   });
 V.on("payment.success", function(payment)
-  {alert(JSON.stringify(payment)); });
+  {if (confirm("Obrigado por comprar na GloboPlay/Som Livre. Clique em 'OK' para ir para sua PlayList ou cancelar para continuar o video.")){
+    location.href = "/playlist.html";
+  }
+});
 V.on("payment.cancel", function(payment)
-  {alert(JSON.stringify(payment)); });
+  {alert("Pagamento cancelado pelo usuario"); });
 V.on("payment.error", function(payment, error)
-  {alert(JSON.stringify(error)); });
+  {alert("Erro ao processar pagamento. Tente novamente em alguns minutos"); });
 }
 </script>
 <style type="text/css" media="screen">
@@ -100,7 +103,7 @@ body {
 <body>
 
   <video id="player" controls>
-    <source src="fatima.mp4" type="video/mp4">
+    <source src="sereia.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
@@ -109,13 +112,11 @@ body {
 
     <div id="music-data">
       <div id="music-friendly-sentence" class="music-labels">
-        <!-- Gostou da Musica? Compre usando Visa Checkout. -->
-        Gostu do presente da Natura? Compre usando Visa Checkout.
+         Gostou da Musica? Compre usando Visa Checkout.
       </div>
       <div id="music-title" class="music-labels"> </div>
     </div>
-    <!--<img id="music-logo-som-livre" alt="Som Livre" src="logo-som-livre.jpg"/>-->
-    <img id="music-logo-som-livre" alt="Som Livre" src="logo-natura.jpg"/>
+    <img id="music-logo-som-livre" alt="Som Livre" src="logo-som-livre.jpg"/>
     <img id="music-visa-checkout" alt="Visa Checkout" class="v-button" role="button"
     src="https://sandbox.secure.checkout.visa.com/wallet-services-web/xo/button.png"/>
     <script type="text/javascript"
@@ -148,9 +149,8 @@ body {
 
 
     function onTrackedVideoFrame(currentTime, duration){
-        if (currentTime > 180){
-          document.getElementById("music-title").textContent = "Presente Natura - R$ 50,99";
-          //document.getElementById("music-title").textContent = music.nome + " - " + "R$ " + music.valor;
+        if (currentTime > music.tempo){
+          document.getElementById("music-title").textContent = music.nome + " - " + "R$ " + music.valor;
           $('#music').show();
         } else {
           $('#music').hide();
