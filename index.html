@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+ <script type="text/javascript">
+  function onVisaCheckoutReady(){
+  V.init( {
+  apikey: "UWQ1QJCBMFV593LACDFR21v7AaqUKUGa7YGbrq1Zva_XgEkRk",
+   paymentRequest:{
+    currencyCode: "USD",
+    total: "10.00"
+  }
+  });
+V.on("payment.success", function(payment)
+  {alert(JSON.stringify(payment)); });
+V.on("payment.cancel", function(payment)
+  {alert(JSON.stringify(payment)); });
+V.on("payment.error", function(payment, error)
+  {alert(JSON.stringify(error)); });
+}
+</script>
 <style type="text/css" media="screen">
 body {
   background-image: url("./background.png");
@@ -12,14 +30,65 @@ body {
   width: 1043px;
   height: 614px;
 }
+#music {
+  position: absolute;
+  left: 1040px;
+  top: 720px;
+  width: 400px;
+  height: 100px;
+  background-color: white;
+}
+#music-visa-checkout {
+  position: absolute;
+  left: 1230px;
+  top: 830px;
+}
 </style>
 </head>
 <body>
 
-<video id="player" controls>
-  <source src="sereia.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+  <video id="player" controls>
+    <source src="sereia.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
+  <div id="music"> Music...
+  </div>
+
+  <img id="music-visa-checkout" alt="Visa Checkout" class="v-button" role="button"
+  src="https://sandbox.secure.checkout.visa.com/wallet-services-web/xo/button.png"/>
+  <script type="text/javascript"
+  src="https://sandbox-assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js">
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDCUNrURBviVpqpMKmvYZim6490bqw4T5U",
+      authDomain: "globoplaysom.firebaseapp.com",
+      databaseURL: "https://globoplaysom.firebaseio.com",
+      projectId: "globoplaysom",
+      storageBucket: "globoplaysom.appspot.com",
+      messagingSenderId: "411689509269"
+    };
+    firebase.initializeApp(config);
+
+    var database = null;
+
+
+    firebase.database().ref("/").once('value')
+    .then(
+        function(snapshot) { 
+          database = snapshot.val();
+          
+          var music = database[0].produtos[0].musica;
+          setTimeout(function () {
+            document.getElementById("music").textContent = music.nome;
+          }, music.tempo * 1000);
+        }
+    );
+
+  </script>
 </body>
 </html>
