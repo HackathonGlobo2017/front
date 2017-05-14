@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+
+<style type="text/css" media="screen">
+body {
+  background-image: url("./background-pl.png");
+}
+#player {
+  position: absolute;
+  left: 170px;
+  top: 80px;
+  width: 900px;
+  height: 100px;
+}
+#music-data {
+  position: relative;
+  left: 140px;
+  top: 92px;
+  width: 1070px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: black;
+  border-radius: 10px;
+  box-shadow: 3px 3px 1px black;
+  border-color: red;
+}
+.music-labels {
+  position: relative;
+  text-shadow: 2px 2px 1px black;
+  color: white;
+  font-family: open sans;
+  font-weight: 300;
+  margin-left: 10px;
+}
+
+#music-title {
+  font-size: 170%;
+  margin-top: 4px;
+  text-align: left;
+}
+
+</style>
+</head>
+<body>
+  <div id="music" >
+    <div id="music-data">
+      <div id="music-title" class="music-labels">1. Red Hot Chili Peppers - By The Way </div>
+    </div>
+  </div>
+  <audio controls id="player">
+    <source src="http://dl.mp3xd.eu/xd/c26Yh6pmvi24/Red+hot+chilli+peppers+by.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+</body>
+</html>
