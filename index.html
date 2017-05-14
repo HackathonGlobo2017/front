@@ -45,26 +45,27 @@ body {
 #music-background {
   filter: invert(100%);
   position: absolute;
-  left: 1040px;
-  top: 720px;
+  left: 140px;
+  top: 825px;
   width: 400px;
   height: 100px;
-  background-image: url("./music notes.png");
+
   border-radius: 10px;
   opacity: 0.2;
   z-index: -1;
 }
 #music-data {
   position: absolute;
-  left: 1040px;
-  top: 720px;
-  width: 400px;
+  left: 140px;
+  top: 825px;
+  width: 1070px;
   height: 100px;
-  background-color: rgba(100, 100, 100, 0.2);
-  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: black;
   border-radius: 10px;
-  box-shadow: 3px 3px 1px black;
+  box-shadow: 3px 3px 1px #080aea;
   z-index: 2;
+  border-color: red;
 }
 .music-labels {
   position: relative;
@@ -74,6 +75,11 @@ body {
   font-weight: 300;
   margin-left: 10px;
 }
+#music-friendly-sentence {
+  font-size: 170%;
+  margin-top: 4px;
+  text-align: center;
+}
 #music-title {
   font-size: 170%;
   margin-top: 4px;
@@ -82,31 +88,41 @@ body {
 #music-price {
   margin-top: 10px;
   font-size: 150%;
-  text-align: right;
+  text-align: center;
   margin-right: 30px;
 }
 #music-visa-checkout {
   position: absolute;
-  left: 1080px;
-  top: 766px;
+  left: 980px;
+  top: 871px;
   z-index:2;
+}
+#music-logo-som-livre {
+  position: absolute;
+  left: 240px;
+  top: 835px;
+  z-index:2;
+
 }
 </style>
 </head>
 <body>
 
   <video id="player" controls>
-    <source src="sereia.mp4" type="video/mp4">
+    <source src="fatima.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
   <div id="music" >
     <div id="music-background"> </div>
-    <div id="music-data">
-      <div id="music-title" class="music-labels"> </div>
-      <div id="music-price" class="music-labels"> </div>
-    </div>
 
+    <div id="music-data">
+      <div id="music-friendly-sentence" class="music-labels">
+        Gostou da Música? Compre usando Visa Checkout.
+      </div>
+      <div id="music-title" class="music-labels"> </div>
+    </div>
+    <img id="music-logo-som-livre" alt="Som Livre" src="logo-som-livre.jpg"/>
     <img id="music-visa-checkout" alt="Visa Checkout" class="v-button" role="button"
     src="https://sandbox.secure.checkout.visa.com/wallet-services-web/xo/button.png"/>
     <script type="text/javascript"
@@ -139,8 +155,7 @@ body {
 
     function onTrackedVideoFrame(currentTime, duration){
         if (currentTime > music.tempo){
-          document.getElementById("music-title").textContent = music.nome;
-          document.getElementById("music-price").textContent = "R$ " + music.valor;
+          document.getElementById("music-title").textContent = music.nome + " - " + "R$ " + music.valor;
           $('#music').show();
         } else {
           $('#music').hide();
