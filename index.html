@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
  <script type="text/javascript">
   function onVisaCheckoutReady(){
   V.init( {
@@ -31,7 +31,7 @@ body {
   height: 614px;
 }
 #music {
-  visibility: hidden;
+  display: none;
 }
 #music-background {
   filter: invert(100%);
@@ -91,7 +91,7 @@ body {
     Your browser does not support the video tag.
   </video>
 
-  <div id="music">
+  <div id="music" >
     <div id="music-background"> </div>
     <div id="music-data">
       <div id="music-title" class="music-labels"> </div>
@@ -117,14 +117,24 @@ body {
       messagingSenderId: "411689509269"
     };
     firebase.initializeApp(config);
+    var database = null;
+    var music = null;
 
+    firebase.database().ref("/").once('value')
+      .then(
+          function(snapshot) {
+            database = snapshot.val();
+            music = database[0].produtos[0].musica;
+          }
+      );
+    /*
     var database = null;
 
     firebase.database().ref("/").once('value')
     .then(
-        function(snapshot) { 
+        function(snapshot) {
           database = snapshot.val();
-          
+
           var music = database[0].produtos[0].musica;
           setTimeout(function () {
             document.getElementById("music-title").textContent = music.nome;
@@ -132,7 +142,27 @@ body {
             document.getElementById("music").style.visibility = "visible";
           }, music.tempo * 100);
         }
-    );
+    );*/
+
+    function onTrackedVideoFrame(currentTime, duration){
+        if (currentTime > music.tempo){
+          document.getElementById("music-title").textContent = music.nome;
+          document.getElementById("music-price").textContent = "R$ " + music.valor;
+          $('#music').show();
+        } else {
+          $('#music').hide();
+        }
+    }
+
+    $( document ).ready(function() {
+
+      $("#player").on(
+        "timeupdate",
+        function(event){
+          onTrackedVideoFrame(this.currentTime, this.duration);
+        });
+
+      });
 
   </script>
 </body>
